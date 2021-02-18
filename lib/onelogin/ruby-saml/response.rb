@@ -151,11 +151,11 @@ module OneLogin
           stmt_elements = xpath_from_signed_assertion('/a:AttributeStatement')
           stmt_elements.each do |stmt_element|
             stmt_element.elements.each do |attr_element|
-              if attr_element.name == "EncryptedAttribute"
-                node = decrypt_attribute(attr_element.dup)
+              node = if attr_element.name == "EncryptedAttribute"
+                decrypt_attribute(attr_element.dup)
               else
-                node = attr_element
-              end
+                attr_element
+                     end
 
               name  = node.attributes["Name"]
 
@@ -893,11 +893,11 @@ module OneLogin
         @name_id_node ||=
           begin
             encrypted_node = xpath_first_from_signed_assertion('/a:Subject/a:EncryptedID')
-            if encrypted_node
-              node = decrypt_nameid(encrypted_node)
+            node = if encrypted_node
+              decrypt_nameid(encrypted_node)
             else
-              node = xpath_first_from_signed_assertion('/a:Subject/a:NameID')
-            end
+              xpath_first_from_signed_assertion('/a:Subject/a:NameID')
+                   end
           end
       end
 
@@ -953,11 +953,11 @@ module OneLogin
         end
 
         # Marshal at Ruby 1.8.7 throw an Exception
-        if RUBY_VERSION < "1.9"
-          document_copy = XMLSecurity::SignedDocument.new(response, errors)
+        document_copy = if RUBY_VERSION < "1.9"
+          XMLSecurity::SignedDocument.new(response, errors)
         else
-          document_copy = Marshal.load(Marshal.dump(document))
-        end
+          Marshal.load(Marshal.dump(document))
+                        end
 
         decrypt_assertion_from_document(document_copy)
       end

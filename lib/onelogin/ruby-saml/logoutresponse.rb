@@ -36,11 +36,11 @@ module OneLogin
         raise ArgumentError.new("Logoutresponse cannot be nil") if response.nil?
         @settings = settings
 
-        if settings.nil? || settings.soft.nil?
-          @soft = true
+        @soft = if settings.nil? || settings.soft.nil?
+          true
         else
-          @soft = settings.soft
-        end
+          settings.soft
+                end
 
         @options = options
         @response = decode_raw_saml(response)

@@ -215,11 +215,11 @@ module XMLSecurity
           return append_error("Certificate Error", soft)
         end
 
-        if options[:fingerprint_alg]
-          fingerprint_alg = XMLSecurity::BaseDocument.new.algorithm(options[:fingerprint_alg]).new
+        fingerprint_alg = if options[:fingerprint_alg]
+          XMLSecurity::BaseDocument.new.algorithm(options[:fingerprint_alg]).new
         else
-          fingerprint_alg = OpenSSL::Digest.new('SHA1')
-        end
+          OpenSSL::Digest.new('SHA1')
+                          end
         fingerprint = fingerprint_alg.hexdigest(cert.to_der)
 
         # check cert matches registered idp cert

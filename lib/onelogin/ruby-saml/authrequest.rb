@@ -144,11 +144,11 @@ module OneLogin
 
         if settings.authn_context || settings.authn_context_decl_ref
 
-          if settings.authn_context_comparison != nil
-            comparison = settings.authn_context_comparison
+          comparison = if settings.authn_context_comparison != nil
+            settings.authn_context_comparison
           else
-            comparison = 'exact'
-          end
+            'exact'
+                       end
 
           requested_context = root.add_element "samlp:RequestedAuthnContext", {
             "Comparison" => comparison,
