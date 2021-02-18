@@ -335,8 +335,7 @@ class RubySamlTest < Minitest::Test
           options = {}
           options[:get_params] = params
           options[:get_params]['RelayState'] = 'http://example.com'
-          logoutresponse = OneLogin::RubySaml::Logoutresponse.new(params['SAMLResponse'], settings, options)
-          # Assemble query string.
+                    # Assemble query string.
           query = OneLogin::RubySaml::Utils.build_query(
             :type => 'SAMLResponse',
             :data => params['SAMLResponse'],

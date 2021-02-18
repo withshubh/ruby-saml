@@ -191,8 +191,7 @@ class SettingsTest < Minitest::Test
       end
 
       it "returns the hash with certificates when values were valid" do
-        certificates = ruby_saml_cert_text
-        @settings.idp_cert_multi = {
+                @settings.idp_cert_multi = {
           :signing => [ruby_saml_cert_text],
           :encryption => [ruby_saml_cert_text],
         }

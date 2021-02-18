@@ -894,10 +894,8 @@ module OneLogin
           begin
             encrypted_node = xpath_first_from_signed_assertion('/a:Subject/a:EncryptedID')
             if encrypted_node
-              node = decrypt_nameid(encrypted_node)
-            else
-              node = xpath_first_from_signed_assertion('/a:Subject/a:NameID')
-            end
+                          else
+                          end
           end
       end
 
